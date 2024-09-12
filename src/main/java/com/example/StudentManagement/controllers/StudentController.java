@@ -1,19 +1,15 @@
 package com.example.StudentManagement.controllers;
-
-import com.example.StudentManagement.dto.MobileDto;
 import com.example.StudentManagement.dto.StudentDto;
 import com.example.StudentManagement.dto.StudentDto2;
 import com.example.StudentManagement.repo.DepartmentRepo;
-import com.example.StudentManagement.services.MobileService;
 import com.example.StudentManagement.services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
 @RequestMapping("/employee")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "http://localhost:5173") //for connecting two server
 public class StudentController {
 
     @Autowired
