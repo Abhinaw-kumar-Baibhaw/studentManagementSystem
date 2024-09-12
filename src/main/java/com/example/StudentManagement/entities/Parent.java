@@ -15,7 +15,4 @@ public class Parent {
     private String fatherName;
     private String motherName;
     private String fatherOccupation;
-//    private Mobile mobile;
-
-//    private AddressEntity address;
 }

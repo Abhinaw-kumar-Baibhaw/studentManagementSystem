@@ -22,4 +22,10 @@ public class CourseController {
     public CourseDto getCourseById(@PathVariable Long id){
         return courseService.getCourseById(id);
     }
+
+//    @DeleteMapping("{deletedId}")
+//    public void  deleteCourse(@PathVariable Long deletedId){
+//        System.out.println("CONTROLLER DELETE COURSE ID :::" + deletedId);
+//        courseService.deleteCourse(deletedId);
+//    }
 }

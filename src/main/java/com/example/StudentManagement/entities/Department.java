@@ -21,7 +21,7 @@ public class Department {
     private String departmentName;
     private String description;
 
-    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Student> students = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)

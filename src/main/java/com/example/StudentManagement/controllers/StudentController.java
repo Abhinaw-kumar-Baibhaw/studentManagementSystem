@@ -41,9 +41,9 @@ public class StudentController {
              return service.findByEmail(email);
     }
 
-    @GetMapping("deletedById")
-    public String deleteById(Long id) {
-        return service.deleteById(id);
+    @DeleteMapping("/{deletedById}")
+    public String deleteById(@PathVariable Long deletedById) {
+        return service.deleteById(deletedById);
     }
 
     @GetMapping("showProfile")

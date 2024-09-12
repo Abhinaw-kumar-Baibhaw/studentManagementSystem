@@ -12,7 +12,7 @@ public interface CourseService {
 
     public List<CourseDto> getAllCourses();
 
-    public void deleteCourse(Long id);
+    public String deleteCourse(Long id);
 
     public CourseDto updateCourse(Long id, CourseDto courseDto);
 

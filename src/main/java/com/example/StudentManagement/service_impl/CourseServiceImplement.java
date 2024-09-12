@@ -76,8 +76,16 @@ public class CourseServiceImplement implements CourseService {
     }
 
     @Override
-    public void deleteCourse(Long id) {
+    public String  deleteCourse(Long id) {
 
+//        System.out.println("DELETE COURSE ID :::" + id);
+//       if(courseRepo.existsById(id)){
+//           courseRepo.deleteById(id);
+//       }
+//       else {
+//           throw new ResourceNotFoundException("Not Found any course");
+//       }
+        return "";
     }
 
     @Override

@@ -4,10 +4,9 @@ import com.example.StudentManagement.config.JwtService;
 import com.example.StudentManagement.dto.*;
 import com.example.StudentManagement.entities.*;
 import com.example.StudentManagement.exceptions.ResourceNotFoundException;
-import com.example.StudentManagement.repo.CourseRepo;
-import com.example.StudentManagement.repo.DepartmentRepo;
-import com.example.StudentManagement.repo.StudentRepo;
+import com.example.StudentManagement.repo.*;
 import com.example.StudentManagement.services.StudentService;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,16 +27,20 @@ public class StudentServiceImplement implements StudentService {
     private final StudentRepo studentRepo;
     private final DepartmentRepo departmentRepo;
     private final CourseRepo courseRepo;
+    private final MobileRepo mobileRepo;
+    private final AddressRepo addressRepo;
 
     @Autowired
     private  final JwtService jwtService;
 
-    public StudentServiceImplement(ModelMapper modelMapper, StudentRepo studentRepo, JwtService jwtService, DepartmentRepo departmentRepo, CourseRepo courseRepo) {
+    public StudentServiceImplement(ModelMapper modelMapper, StudentRepo studentRepo, JwtService jwtService, DepartmentRepo departmentRepo, CourseRepo courseRepo,AddressRepo addressRepo, MobileRepo mobileRepo) {
         this.modelMapper = modelMapper;
         this.studentRepo = studentRepo;
         this.jwtService = jwtService;
         this.departmentRepo = departmentRepo;
         this.courseRepo=courseRepo;
+        this.addressRepo=addressRepo;
+        this.mobileRepo=mobileRepo;
     }
 
     @Override
@@ -172,15 +175,27 @@ public class StudentServiceImplement implements StudentService {
 //    }
 
     @Override
+    @Transactional
     public String deleteById(Long id) {
-        Optional<Student> byIdStudentDto = studentRepo.findById(id);
-        if (byIdStudentDto.isPresent()) {
-            Student mapper = modelMapper.map(byIdStudentDto, Student.class);
-            studentRepo.delete(mapper);
-            return "Deleted";
-        }
-        return "not found";
+
+//        Optional<Mobile> byId = mobileRepo.findById(id);
+//        if(byId.isPresent()){
+//            Mobile mobile = byId.get();
+//            mobileRepo.deleteById(mobile.getId());
+//        }
+//        Optional<AddressEntity> byId1 = addressRepo.findById(id);
+//        if(byId1.isPresent()){
+//            AddressEntity addressEntity = byId1.get();
+//            addressRepo.deleteById(addressEntity.getAddressId());
+//        }
+
+        addressRepo.deleteByStudentId(id);
+        mobileRepo.deleteByStudentId(id);
+        studentRepo.deleteByStudentId(id);
+
+        return "";
     }
+
 
     @Override
     public StudentDto showProfile(Long id) {

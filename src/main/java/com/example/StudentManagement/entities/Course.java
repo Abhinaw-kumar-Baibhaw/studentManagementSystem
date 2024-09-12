@@ -23,12 +23,12 @@ public class Course {
     private LocalDate updatedAt;
     private int duration;
 
-    @OneToMany(mappedBy = "courses", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "courses", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 //    @JsonManagedReference
 //    @JsonIgnore
     private List<Department> departments;
 
 
-    @OneToMany(mappedBy = "courses",  cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "courses",  cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Student> students;
 }
