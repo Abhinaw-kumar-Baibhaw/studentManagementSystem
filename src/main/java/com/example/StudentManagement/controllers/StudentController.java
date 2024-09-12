@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/employee")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "http://localhost:5173") //for connecting two servers
 public class StudentController {
 
     @Autowired
