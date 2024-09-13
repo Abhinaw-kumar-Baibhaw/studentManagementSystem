@@ -72,7 +72,10 @@ public class CourseServiceImplement implements CourseService {
 
     @Override
     public List<CourseDto> getAllCourses() {
-        return List.of();
+        List<Course> allCourses = courseRepo.findAll();
+        return allCourses.stream()
+                .map(course -> modelMapper.map(course, CourseDto.class))
+                .collect(Collectors.toList());
     }
 
     @Override

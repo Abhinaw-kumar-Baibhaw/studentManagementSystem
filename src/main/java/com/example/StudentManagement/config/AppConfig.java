@@ -48,7 +48,7 @@ public class AppConfig  {
         http.authorizeHttpRequests(request -> request
                         .requestMatchers("/employee/addStudent","/department/add","/course/add",
                                 "/employee/getAllData","/employee/{id}","/department/{id}","/course/{id}",
-                                "/parent/add","/parent/{id}","/course/{deletedId}")
+                                "/parent/add","/parent/{id}","/course/{deletedId}","/course/allCourses")
                         .permitAll()
                         .anyRequest()
                         .authenticated())
