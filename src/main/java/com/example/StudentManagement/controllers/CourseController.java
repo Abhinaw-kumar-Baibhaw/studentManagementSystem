@@ -34,4 +34,14 @@ public class CourseController {
 //        System.out.println("CONTROLLER DELETE COURSE ID :::" + deletedId);
 //        courseService.deleteCourse(deletedId);
 //    }
+=======
+       return courseService.getAllCourses();
+    }
+
+    @DeleteMapping("{deletedId}")
+    public void  deleteCourse(@PathVariable Long deletedId){
+        System.out.println("CONTROLLER DELETE COURSE ID :::" + deletedId);
+        courseService.deleteCourse(deletedId);
+    }
+>>>>>>> 023668e (Some changes with course entity)
 }

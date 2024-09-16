@@ -45,20 +45,12 @@ public class StudentServiceImplement implements StudentService {
 
     @Override
     public StudentDto2 addStudent(StudentDto studentDto) {
-
-
-        System.out.println("TOTAL RECORD"+studentDto.getCourses());
-
         Long studentId = studentDto.getStudentId();
-
         Department department= departmentRepo.findById(studentDto.getDepartmentDto().getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Department not found with id :: "+ studentDto.getDepartmentDto().getId()));
 
         Student studentData = modelMapper.map(studentDto, Student.class);
-
-
         Optional<Course> courseId = courseRepo.findById(studentDto.getCourses().getId());
-
         if(courseId.isPresent()){
             Course course = courseId.get();
             studentData.setCourses(course);
@@ -67,31 +59,21 @@ public class StudentServiceImplement implements StudentService {
             throw new RuntimeException("Not Found");
         }
 
-
         studentData.setDepartment(department);
-
         studentData.setRegisterDate(new Date());
-
         studentData.setCreatedAt(LocalDate.now());
-
         List<AddressEntity> addresses = setStudentAddress(studentDto, studentData);
-
         studentData.setAddresses(addresses);
-
         List<Mobile> mobiles = setStudentMobiles(studentDto, studentData);
-
         studentData.setMobiles(mobiles);
-
         Student savedStudent = studentRepo.save(studentData);
 
         Department departmentData = savedStudent.getDepartment();
-
         DepartmentDto departmentDto = modelMapper.map(departmentData, DepartmentDto.class);
 
         String token = jwtService.generateToken(savedStudent.getEmail());
 
         StudentDto savedStudentData = modelMapper.map(savedStudent, StudentDto.class);
-
         savedStudentData.setDepartmentDto(departmentDto);
 
         return new StudentDto2(savedStudentData, token);
@@ -177,22 +159,9 @@ public class StudentServiceImplement implements StudentService {
     @Override
     @Transactional
     public String deleteById(Long id) {
-
-//        Optional<Mobile> byId = mobileRepo.findById(id);
-//        if(byId.isPresent()){
-//            Mobile mobile = byId.get();
-//            mobileRepo.deleteById(mobile.getId());
-//        }
-//        Optional<AddressEntity> byId1 = addressRepo.findById(id);
-//        if(byId1.isPresent()){
-//            AddressEntity addressEntity = byId1.get();
-//            addressRepo.deleteById(addressEntity.getAddressId());
-//        }
-
         addressRepo.deleteByStudentId(id);
         mobileRepo.deleteByStudentId(id);
         studentRepo.deleteByStudentId(id);
-
         return "";
     }
 

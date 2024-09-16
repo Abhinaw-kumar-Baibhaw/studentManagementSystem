@@ -2,8 +2,10 @@ package com.example.StudentManagement.service_impl;
 
 import com.example.StudentManagement.dto.CourseDto;
 import com.example.StudentManagement.dto.DepartmentDto;
+import com.example.StudentManagement.dto.StudentDto;
 import com.example.StudentManagement.entities.Course;
 import com.example.StudentManagement.entities.Department;
+import com.example.StudentManagement.entities.Student;
 import com.example.StudentManagement.exceptions.ResourceNotFoundException;
 import com.example.StudentManagement.repo.CourseRepo;
 import com.example.StudentManagement.repo.DepartmentRepo;
@@ -72,24 +74,31 @@ public class CourseServiceImplement implements CourseService {
 
     @Override
     public List<CourseDto> getAllCourses() {
+<<<<<<< HEAD
         List<Course> allCourses = courseRepo.findAll();
         return allCourses.stream()
                 .map(course -> modelMapper.map(course, CourseDto.class))
                 .collect(Collectors.toList());
+        List<Course> allStudents = courseRepo.findAll();
+        List<CourseDto> courseDtos = allStudents.stream()
+                .map(student -> modelMapper.map(student, CourseDto.class))
+                .collect(Collectors.toList());
+        return courseDtos;
     }
+
 
     @Override
     public String  deleteCourse(Long id) {
-
-//        System.out.println("DELETE COURSE ID :::" + id);
-//       if(courseRepo.existsById(id)){
-//           courseRepo.deleteById(id);
-//       }
-//       else {
-//           throw new ResourceNotFoundException("Not Found any course");
-//       }
+        System.out.println("DELETE COURSE ID :::" + id);
+       if(courseRepo.existsById(id)){
+           courseRepo.deleteById(id);
+       }
+       else {
+           throw new ResourceNotFoundException("Not Found any course");
+       }
         return "";
     }
+
 
     @Override
     public CourseDto updateCourse(Long id, CourseDto courseDto) {
