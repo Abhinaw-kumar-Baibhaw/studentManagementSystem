@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 @Service
 public class StudentServiceImplement implements StudentService {
 
-
     private final ModelMapper modelMapper;
     private final StudentRepo studentRepo;
     private final DepartmentRepo departmentRepo;
@@ -183,13 +182,42 @@ public class StudentServiceImplement implements StudentService {
     }
 
 
+    @Transactional
     public StudentDto updateStudent(StudentDto studentDto, Long id) {
-        Optional<Student> byId = studentRepo.findById(id);
-        if (byId.isPresent()) {
-            Student student = byId.get();
-            StudentDto map = modelMapper.map(student, StudentDto.class);
-            return map;
+        Optional<Student> optionalStudent = studentRepo.findById(id);
+        if (optionalStudent.isPresent()) {
+            Student student = optionalStudent.get();
+            student.setName(studentDto.getName());
+            student.setAge(studentDto.getAge());
+            student.setEmail(studentDto.getEmail());
+            student.setGender(studentDto.getGender());
+            student.setUpdatedAt(new Date());
+            if (studentDto.getAddresses() != null) {
+                student.getAddresses().clear();
+                for (AddressDto addressDto : studentDto.getAddresses()) {
+                    AddressEntity address = modelMapper.map(addressDto, AddressEntity.class);
+                    address.setStudent(student);
+                    student.getAddresses().add(address);
+                }
+            }
+            if (studentDto.getMobiles() != null) {
+                student.getMobiles().clear();
+                for (MobileDto mobileDto : studentDto.getMobiles()) {
+                    Mobile mobile = modelMapper.map(mobileDto, Mobile.class);
+                    mobile.setStudent(student);
+                    student.getMobiles().add(mobile);
+                }
+            }
+            Student updatedStudent = studentRepo.save(student);
+            return modelMapper.map(updatedStudent, StudentDto.class);
         }
         return null;
+    }
+
+    public List<StudentDto> getStudentsByCourseName(String courseName){
+        List<Student> students = studentRepo.findByCourseName(courseName);
+        return students.stream()
+                .map(student -> modelMapper.map(student, StudentDto.class))
+                .collect(Collectors.toList());
     }
 }

@@ -46,7 +46,7 @@ public class AppConfig  {
 
         http.csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests(request -> request
-                        .requestMatchers("/employee/addStudent","/department/add","/course/add",
+                        .requestMatchers("/employee/addStudent","/employee/updateId","/employee/course/{courseName}","/department/add","/course/add",
                                 "/employee/getAllData","/employee/{id}","/department/{id}","/course/{id}",
                                 "/parent/add","/parent/{id}","/course/{deletedId}","/course/allCourses")
                         .permitAll()

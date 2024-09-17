@@ -30,6 +30,8 @@ public interface StudentService {
 
 //    public StudentDto findByMobile(String mobile);
 
+public List<StudentDto> getStudentsByCourseName(String courseName);
+
     public String deleteById(Long id);
 
     public StudentDto showProfile(Long id);

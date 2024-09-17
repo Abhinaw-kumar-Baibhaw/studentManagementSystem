@@ -49,6 +49,10 @@ public class ParentServiceImplement implements ParentService {
 
     @Override
     public void deleteById(Long id) {
-
+        Optional<Parent> byId = parentRepo.findById(id);
+        if(byId.isPresent()){
+            Parent parent = byId.get();
+            parentRepo.deleteById(parent.getId());
+        }
     }
 }

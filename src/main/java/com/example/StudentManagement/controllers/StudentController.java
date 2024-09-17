@@ -4,6 +4,7 @@ import com.example.StudentManagement.dto.StudentDto2;
 import com.example.StudentManagement.repo.DepartmentRepo;
 import com.example.StudentManagement.services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -51,8 +52,21 @@ public class StudentController {
         return service.showProfile(id);
     }
 
-    @GetMapping("updateStudent")
-    public StudentDto updateStudent(StudentDto studentDto,Long id){
-        return service.updateStudent(studentDto,id);
+
+    @PutMapping("/{updateId}")
+    public ResponseEntity<StudentDto> updateStudent(@PathVariable("updateId") Long id,
+                                                    @RequestBody StudentDto studentDto) {
+        StudentDto updatedStudent = service.updateStudent(studentDto, id);
+        if (updatedStudent != null) {
+            return ResponseEntity.ok(updatedStudent);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/course/{courseName}")
+    public List<StudentDto> getStudentsByCourseName(@PathVariable("courseName") String courseName) {
+        List<StudentDto> students = service.getStudentsByCourseName(courseName);
+        return students;
     }
 }
