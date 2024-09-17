@@ -1,10 +1,6 @@
     package com.example.StudentManagement.dto;
-    import com.fasterxml.jackson.annotation.JsonBackReference;
-    import com.fasterxml.jackson.annotation.JsonIgnore;
     import com.fasterxml.jackson.annotation.JsonInclude;
-    import com.fasterxml.jackson.annotation.JsonManagedReference;
     import lombok.*;
-
     import java.time.LocalDate;
     import java.util.Date;
     import java.util.List;
@@ -29,20 +25,13 @@
         private LocalDate createdAt;
         private LocalDate updatedAt;
 
-//        @JsonManagedReference
-//        @JsonIgnore
+
         private List<AddressDto> addresses;
 
-//        @JsonManagedReference
-//        @JsonIgnore
         private List<MobileDto> mobiles;
 
-//        @JsonBackReference
-//        @JsonIgnore
         private DepartmentDto departmentDto;
 
-//        @JsonBackReference
-//        @JsonIgnore
         private CourseDto courses;
 
 

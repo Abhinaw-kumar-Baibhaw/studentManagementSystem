@@ -20,7 +20,4 @@ public class AddressDto {
     private String country;
     private int zipcode;
     private AddressEnum addressType;
-//    @JsonBackReference
-//    @JsonIgnore
-//    private StudentDto student;
 }

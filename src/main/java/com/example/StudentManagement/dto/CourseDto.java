@@ -26,12 +26,7 @@ public class CourseDto {
     private LocalDate updatedAt;
     private int duration;
 
-//    @JsonManagedReference
-//    @JsonIgnore
     private List<DepartmentDto> departments;
 
 
-//    @JsonManagedReference
-//    @JsonIgnore
-//    private List<StudentDto> students;
 }

@@ -18,7 +18,4 @@ public class MobileDto {
     private String mobileNumber;
     private MobileEnum mobileType;
 
-//    @JsonBackReference
-//    @JsonIgnore
-//    private StudentDto student;
 }

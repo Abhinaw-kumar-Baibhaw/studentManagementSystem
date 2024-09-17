@@ -18,8 +18,5 @@ public class DepartmentDto {
     private String departmentName;
     private String description;
 
-//    @JsonBackReference
-//    @JsonIgnore
-//    private CourseDto courses;
 
 }

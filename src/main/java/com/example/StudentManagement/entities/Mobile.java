@@ -23,8 +23,6 @@ public class Mobile {
 
 
     @JoinColumn(name = "student_id", referencedColumnName = "studentId")
-//    @JsonBackReference
-//    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private Student student;
 }

@@ -40,8 +40,6 @@ public class Student implements UserDetails {
 
 
     @OneToMany(mappedBy = "student" , cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-//    @JsonManagedReference
-//    @JsonIgnore
     private List<Mobile> mobiles = new ArrayList<>();
 
 

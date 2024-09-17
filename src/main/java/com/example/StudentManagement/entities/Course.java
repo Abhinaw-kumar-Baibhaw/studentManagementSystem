@@ -24,8 +24,6 @@ public class Course {
     private int duration;
 
     @OneToMany(mappedBy = "courses", cascade = CascadeType.ALL, fetch = FetchType.EAGER,orphanRemoval = true)
-//    @JsonManagedReference
-//    @JsonIgnore
     private List<Department> departments;
 
 

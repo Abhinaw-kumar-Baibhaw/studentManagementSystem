@@ -26,7 +26,5 @@ public class Department {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id" , referencedColumnName = "id")
-//    @JsonBackReference
-//    @JsonIgnore
     private Course courses;
 }

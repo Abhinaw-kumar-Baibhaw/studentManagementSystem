@@ -29,8 +29,6 @@ public class AddressEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id",referencedColumnName = "studentId")
-//    @JsonBackReference
-//    @JsonIgnore
     private Student student;
 
 }
