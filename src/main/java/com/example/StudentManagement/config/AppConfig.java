@@ -1,8 +1,12 @@
 package com.example.StudentManagement.config;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -24,16 +28,20 @@ public class AppConfig  {
         return new ModelMapper();
     }
 
-    @Autowired
-    private MyUserDetailsService myUserDetailsService;
+    @Bean
+    @Primary
+    public MyUserDetailsService myUserDetailsService() {
+        return new MyUserDetailsService();
+    }
 
-    @Autowired
-    private JwtFilter jwtFilter;
-
+    @Bean
+    public JwtFilter jwtFilter() {
+        return new JwtFilter();
+    }
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return new MyUserDetailsService(); // Implement this service
+        return myUserDetailsService();
     }
 
     @Bean
@@ -42,41 +50,35 @@ public class AppConfig  {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
-        http.csrf(AbstractHttpConfigurer::disable);
-        http.authorizeHttpRequests(request -> request
-                        .requestMatchers("/employee/addStudent","/employee/updateId","/employee/course/{courseName}","/department/add","/course/add",
-                                "/employee/getAllData","/employee/{id}","/department/{id}","/course/{id}",
-                                "/parent/add","/parent/{id}","/course/{deletedId}","/course/allCourses")
-                        .permitAll()
-                        .anyRequest()
-                        .authenticated())
-                        .userDetailsService(myUserDetailsService)
-                        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                        .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-      return http.build();
-
+    public AuthenticationProvider authProvider(){
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(myUserDetailsService());
+        provider.setPasswordEncoder(passwordEncoder());
+        return  provider;
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-//    @Bean
-//    public UserDetailsService userDetailsService() {
-//        User.UserBuilder users = User.withDefaultPasswordEncoder();
-//        InMemoryUserDetailsManager userDetailsManager = new InMemoryUserDetailsManager();
-//        userDetailsManager.createUser(users.username("admin").password("abhinaw").roles("ADMIN").build());
-//        return userDetailsManager;
-//    }
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.csrf(AbstractHttpConfigurer::disable);
+        http.authorizeHttpRequests(request -> request
+                        .requestMatchers("/Auth/login")
+                        .permitAll()
+                        .requestMatchers("/employee/addStudent","/employee/updateId","/employee/course/{courseName}","/department/add","/course/add",
+                                "/employee/getAllData","/employee/{id}","/department/{id}","/course/{id}",
+                                "/parent/add","/parent/{id}","/course/{deletedId}","/course/allCourses")
+//                        .permitAll()
+//                        .anyRequest()
+                        .authenticated())
+                .userDetailsService(myUserDetailsService())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.authenticationManager(authenticationManagerBean(null));
+        return http.build();
+    }
+    @Bean
+    public AuthenticationManager authenticationManagerBean(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
+    }
 
 }

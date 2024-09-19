@@ -9,6 +9,7 @@ import com.example.StudentManagement.services.StudentService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -30,12 +31,14 @@ public class StudentServiceImplement implements StudentService {
     private final AddressRepo addressRepo;
 
     @Autowired
-    private  final JwtService jwtService;
+    private PasswordEncoder passwordEncoder;
+//    @Autowired
+//    private  final JwtService jwtService;
 
-    public StudentServiceImplement(ModelMapper modelMapper, StudentRepo studentRepo, JwtService jwtService, DepartmentRepo departmentRepo, CourseRepo courseRepo,AddressRepo addressRepo, MobileRepo mobileRepo) {
+    public StudentServiceImplement(ModelMapper modelMapper, StudentRepo studentRepo, DepartmentRepo departmentRepo, CourseRepo courseRepo,AddressRepo addressRepo, MobileRepo mobileRepo) {
         this.modelMapper = modelMapper;
         this.studentRepo = studentRepo;
-        this.jwtService = jwtService;
+//        this.jwtService = jwtService;
         this.departmentRepo = departmentRepo;
         this.courseRepo=courseRepo;
         this.addressRepo=addressRepo;
@@ -45,6 +48,8 @@ public class StudentServiceImplement implements StudentService {
     @Override
     public StudentDto2 addStudent(StudentDto studentDto) {
         Long studentId = studentDto.getStudentId();
+        String encryptedPassword = passwordEncoder.encode(studentDto.getPassword());
+        studentDto.setPassword(encryptedPassword);
         Department department= departmentRepo.findById(studentDto.getDepartmentDto().getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Department not found with id :: "+ studentDto.getDepartmentDto().getId()));
 
@@ -70,7 +75,8 @@ public class StudentServiceImplement implements StudentService {
         Department departmentData = savedStudent.getDepartment();
         DepartmentDto departmentDto = modelMapper.map(departmentData, DepartmentDto.class);
 
-        String token = jwtService.generateToken(savedStudent.getEmail());
+        String token = "";//temprory for not generating the token when student added
+//        String token = jwtService.generateToken(savedStudent.getEmail());
 
         StudentDto savedStudentData = modelMapper.map(savedStudent, StudentDto.class);
         savedStudentData.setDepartmentDto(departmentDto);
